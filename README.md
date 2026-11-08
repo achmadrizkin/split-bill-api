@@ -207,5 +207,4 @@ The hardest decision was where rounding is allowed to happen. Splitting money al
 - One currency per group, with no FX conversion.
 - H2 in-memory storage. For production, switch the datasource to PostgreSQL; the schema is already compatible.
 - Payments cannot be voided yet. This would mirror expense voiding.
-- Idempotency records are never expired. Production would add a TTL (e.g. 24h) cleanup job.#   s p l i t - b i l l - a p i  
- 
+- Idempotency records are never expired. Production would add a TTL (e.g. 24h) cleanup job.
