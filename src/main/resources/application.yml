@@ -1,0 +1,44 @@
+server:
+  port: 4110
+  shutdown: graceful
+
+spring:
+  application:
+    name: split-bill-api
+  datasource:
+    # In-memory so the container starts with zero manual steps. Schema is PostgreSQL-compatible.
+    url: jdbc:h2:mem:splitbill;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none            # schema is owned by Flyway, never by Hibernate
+    properties:
+      hibernate:
+        default_batch_fetch_size: 50
+        jdbc.time_zone: UTC
+  flyway:
+    enabled: true
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+    default-property-inclusion: non_null
+    deserialization:
+      fail-on-unknown-properties: true    # a typo like "ammount" must fail, not be ignored
+      use-big-decimal-for-floats: true
+    serialization:
+      write-dates-as-timestamps: false
+
+app:
+  # Used for the personalized service charge. Override with env GITHUB_USERNAME.
+  github-username: ${GITHUB_USERNAME:achmadrizkin}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
